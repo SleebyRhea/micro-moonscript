@@ -1,0 +1,103 @@
+filetype: moonscript
+detect:
+  filename: "\\.moon(?:script)?$"
+rules:
+  - ignore: "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\b"
+  - identifier.class: "\\b([A-Z]+[a-zA-Z_]*)\\b"
+  - preproc: "(\\(.+\\) )?(-|=)>"
+
+  - identifer.var: "(.?[a-zA-Z_][a-zA-Z0-9_.]*,?){1,}\\s*(={1}|\\.\\.=|%=|/=|\\-=)\\s*"
+  - type: "\\b(?i:(string|table|number|thread|function|self|nil))\\b"
+  - special: "\\b(export)\\b"
+  - identifier: "\\b(ipairs|pairs)\\b"
+
+  - statement: "\\b((if|unless|switch|when)|then|else)\\b"
+  - statement: "\\b((while|for)|in|do|continue|done|break)\\b"
+  - statement: "\\b(return|from|super)\\b"
+  - statement: "\\b(local|using|with)\\b"
+  - statement: "\\b(not|and|or)\\b"
+  - statement: "\\b(import|require)\\b"
+
+  - constant: "\\b(_(G|ENV|M))\\b"
+  - constant.bool: "\\b(true|false|nil)\\b"
+  - constant.number: "0x[a-fA-F\\d]+|\\b\\d+(\\.\\d+)?([eE]-?\\d+)?|\\.\\d+([eE]-?\\d+)?"
+
+  - special: "\\b(class|extends)\\b"
+  - identifier.class: "[a-zA-Z_][_a-zA-Z0-9]+(\\\\|!|:|\\()"
+  - special: "@[a-zA-Z_][a-zA-Z_0-9]*"
+
+  - symbol.brackets: "(\\{|\\}|\\[|\\]|\\(|\\)|,)"
+
+  # Ordering is a bit wierd, but without lookaheads its sadly needed
+  - symbol.operator: "(\\+|\\-|\\*|\\+=|-=|/=|\\*=|%=|\\.\\.=|\\b(or|and)=?\\b|&&|~=|<<|>>|<|>|<=|>=|=|#|:|\\\\)"
+  - identifier: "(!|(=|-)>)"
+  - symbol.operator: "!="
+  - preproc.shebang: "^\\#\\!.*"
+
+  - ignore: "\\b_\\b"
+  - error: "(\\bfunction\\b *(:?[a-zA-Z_.]+)?\\(.*\\)|\\bend\\b)"
+
+  - constant.string:
+      start: "'"
+      end: "'"
+      skip: ""
+      rules: []
+      
+  - constant.string:
+      start: "\\[\\["
+      end: "\\]\\]"
+      skip: ""
+      rules: []
+      
+  - comment:
+      start: "--"
+      end: "$"
+      rules:
+        - todo: "([Tt][Oo][Dd][Oo]|[fF][iI][xX][mM][eE]):?"
+        - constant.string: "@[a-zA-Z0-9.?\\-_=]+\\s+(\\.{3})?([a-zA-Z0-9:/|?\\-_])+\\s+.+"
+        - special.keywords: "@[a-zA-Z0-9.?\\-_=]+\\s+(\\.{3})?([a-zA-Z0-9:?/|\\-_]+)?"
+        - identifier.var: "@[a-zA-Z0-9.?\\-_=]+"
+
+  - constant.string:
+      start: '"'
+      end: '"'
+      rules:
+        - error: "#\\{\\}"
+        - constant.specialChar:
+            start: "#\\{"
+            end: "\\}"
+            rules:
+              - ignore: "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\b"
+              - identifier.class: "\\b([A-Z]+[a-zA-Z_]*)\\b"
+              - preproc: "(\\(.+\\) )?(-|=)>"
+
+              - identifer.var: "(.?[a-zA-Z_][a-zA-Z0-9_.]*,?){1,}\\s*(={1}|\\.\\.=|%=|/=|\\-=)\\s*"
+              - type: "\\b(?i:(string|table|number|thread|function|self|nil))\\b"
+              - special: "\\b(export)\\b"
+              - identifier: "\\b(ipairs|pairs)\\b"
+
+              - statement: "\\b((if|unless|switch|when)|then|else)\\b"
+              - statement: "\\b((while|for)|in|do|continue|done|break)\\b"
+              - statement: "\\b(return|from|super)\\b"
+              - statement: "\\b(local|using|with)\\b"
+              - statement: "\\b(not|and|or)\\b"
+              - statement: "\\b(import|require)\\b"
+
+              - constant: "\\b(_(G|ENV|M))\\b"
+              - constant.bool: "\\b(true|false|nil)\\b"
+              - constant.number: "0x[a-fA-F\\d]+|\\b\\d+(\\.\\d+)?([eE]-?\\d+)?|\\.\\d+([eE]-?\\d+)?"
+
+              - special: "\\b(class|extends)\\b"
+              - identifier.class: "[a-zA-Z_][_a-zA-Z0-9]+(\\\\|!|:|\\()"
+              - special: "@[a-zA-Z_][a-zA-Z_0-9]*"
+
+              - symbol.brackets: "(\\{|\\}|\\[|\\]|\\(|\\)|,)"
+
+              # Ordering is a bit wierd, but without lookaheads its sadly needed
+              - symbol.operator: "(\\+|\\-|\\*|\\+=|-=|/=|\\*=|%=|\\.\\.=|\\b(or|and)=?\\b|&&|~=|<<|>>|<|>|<=|>=|=|#|:|\\\\)"
+              - identifier: "(!|(=|-)>)"
+              - symbol.operator: "!="
+              - preproc.shebang: "^\\#\\!.*"
+
+              - ignore: "\\b_\\b"
+              - error: "(\\bfunction\\b *(:?[a-zA-Z_.]+)?\\(.*\\)|\\bend\\b)"
