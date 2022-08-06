@@ -1,5 +1,0 @@
-- constant.string:
-    start: '"'
-    end: '"'
-    rules:
-      <%- compile("fragments/standard_rules") %>
